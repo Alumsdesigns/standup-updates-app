@@ -135,15 +135,45 @@ class DailyLog:
 
     def enter_sections(self):
         for key in self.sections:
-            print(f"Section: {key}")
+            heading = (
+                f"{key} ({format_pretty_date(self.yesterday)})"
+                if key == "Yesterday"
+                else f"{key} ({format_pretty_date(self.today)})"
+                if key == "Today" else key)
+            console.print(
+                f"\n[bold bright_yellow]{heading}[/bold bright_yellow]")
+
             while True:
-                line = questionary.text(f"Add one line for {key}:").ask()
-                valid, msg = validate_line(line)
-                if valid:
-                    self.sections[key].append(msg)
-                    break
-                else:
-                    print(msg)
+                console.print(
+                    "[green bold]Use arrow keys ↑↓ and Enter to choose an "
+                    "action[/green bold]")
+                action = questionary.select(
+                    "Select an action:",
+                    choices=[
+                        "Add new line",
+                        "Edit a line",
+                        "Delete a line",
+                        "Done save this section",
+                        "Restart app",
+                        "Exit Locally"
+                    ]
+                ).ask()
+
+                if action == "Add new line":
+                    new_line = questionary.text("Enter your update:").ask()
+                    valid, msg = validate_line(new_line)
+                    if valid:
+                        self.sections[key].append(msg)
+                    else:
+                        console.print(f"[bright_red]{msg}[/bright_red]")
+
+                elif action == "Edit a line":
+                    self.edit_line(key)
+
+                elif action == "Exit Locally":
+                    console.print("[yellow]Exiting app locally...[/yellow]")
+                    exit()
+
 
     def edit_line(self, section_name: str):
         entries = self.sections[section_name]
@@ -163,10 +193,10 @@ class DailyLog:
             entries[idx] = msg
             self.sections[section_name] = entries
 
-# test edit section by running the app
+# test edit section is working by running the app
 if __name__ == "__main__":
     log = DailyLog("Alice")
     print(log.name)      
-    log.enter_sections()
-    log.enter_sections()         
+    log.enter_sections()        
     log.edit_line("Today")
+    print("Updated section:", log.sections["Today"])
