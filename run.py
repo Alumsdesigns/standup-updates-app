@@ -117,6 +117,22 @@ def validate_line(
     return True, sanitized
 
 
-# Test the utils functions locally
-today = datetime.date(2025, 7, 18)  
-print(get_previous_working_day(today))  
+class DailyLog:
+    """
+    Keep track of daily updates in a simple
+    log and provide helpers for saving/formatting.
+    """
+
+    def __init__(self, name: str, date: datetime.date = None):
+        self.name = name.strip().title()
+        self.today = (date or datetime.datetime.now(timezone.utc).date())
+        self.yesterday = get_previous_working_day(self.today)
+        self.sections = {
+            "Yesterday": [],
+            "Today": [],
+            "Blockers": [],
+            "FYI": []}
+
+if __name__ == "__main__":
+    log = DailyLog("Alice")
+    print(log.sections)
