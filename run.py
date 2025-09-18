@@ -170,10 +170,6 @@ class DailyLog:
                 elif action == "Edit a line":
                     self.edit_line(key)
 
-                elif action == "Exit Locally":
-                    console.print("[yellow]Exiting app locally...[/yellow]")
-                    exit()
-
                 elif action == "Delete a line":
                     self.delete_line(key)
 
@@ -181,6 +177,17 @@ class DailyLog:
                     if not self.sections[key]:
                         self.sections[key] = ["None"]
                     break
+
+                elif action == "Restart app":
+                    console.print(
+                        "[yellow]Restarting, please wait...[/yellow]")
+                    time.sleep(1)
+                    os.system('clear' if os.name == 'posix' else 'cls')
+                    return main()
+
+                elif action == "Exit Locally":
+                    console.print("[yellow]Exiting app locally...[/yellow]")
+                    exit()
 
 
     def edit_line(self, section_name: str):
@@ -217,9 +224,16 @@ class DailyLog:
         entries.pop(idx)
         self.sections[section_name] = entries
 
-# test edit section is working by running the app
-if __name__ == "__main__":
-    log = DailyLog("Theo the doggy")
+# add a restart the app for end users
+def main():
+    console.print(
+        "[bold bright_yellow]Welcome to your Daily Log[/bold bright_yellow]\n")
+    name = questionary.text("Enter your name:").ask()
+    log = DailyLog(name)
     log.enter_sections()
-    print(log.sections)
+    log.overview_and_edit()
+
+
+if __name__ == "__main__":
+    main()
 
