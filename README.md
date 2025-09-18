@@ -43,4 +43,17 @@ The deployment terminal is set to 80 columns by 24 rows. That means that each li
 
 ---
 
-Happy coding!
+## Bug Fixes
+
+### Fixed AttributeError in `edit_line` method
+
+As i was creating the edit line functionality I resolved an issue where calling `edit_line` on the `DailyLog` object raised an `AttributeError` because the method was missing in the class definition. I fixed the instantiation of the `DailyLog` object to ensure proper usage.
+
+Users reported encountering this error when trying to edit logs:
+
+![Edit Attribute Error Fix](images/bug_fixes/edit_attr_error_fix.png)
+
+This fix improves the stability and usability of the log editing feature.
+
+---
+
