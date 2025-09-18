@@ -72,3 +72,30 @@ def format_pretty_date(date: datetime.date) -> str:
 
     month = date.strftime("%B")[:4]
     return date.strftime(f"%a {date.day}{suffix} ") + month
+
+def display_section(section_name: str, entries: list):
+    """
+    Show a neatly formatted table with a bold title, and
+    each entry is listed as a numbered row. Uses Rich for styling.
+    """
+    table = Table(
+        title=f"[bold bright_yellow]{section_name}[/bold bright_yellow]",
+        show_lines=True,
+        expand=False, padding=(0, 1)
+    )
+    table.add_column(
+        "Line",
+        style="bright_cyan",
+        justify="center",
+        width=4
+    )
+    table.add_column(
+        "Text",
+        style="white",
+        justify="left",
+        no_wrap=False,
+        width=50
+    )
+    for i, line in enumerate(entries, 1):
+        table.add_row(str(i), line)
+    console.print(table)
