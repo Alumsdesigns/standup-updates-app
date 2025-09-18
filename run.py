@@ -56,3 +56,19 @@ def get_previous_working_day(today: datetime.date) -> datetime.date:
     while day.weekday() >= 5 or day in IRISH_BANK_HOLIDAYS_2025:
         day -= datetime.timedelta(days=1)
     return day
+
+def format_pretty_date(date: datetime.date) -> str:
+    """
+    Format a date into a friendly string like 'Mon 15th Sept'.
+    Always uses UTC time for consistency.
+    """
+    suffix = "th"
+    if date.day in [1, 21, 31]:
+        suffix = "st"
+    elif date.day in [2, 22]:
+        suffix = "nd"
+    elif date.day in [3, 23]:
+        suffix = "rd"
+
+    month = date.strftime("%B")[:4]
+    return date.strftime(f"%a {date.day}{suffix} ") + month
