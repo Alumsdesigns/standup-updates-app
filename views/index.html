@@ -1,0 +1,37 @@
+<body>
+    <header class="app-header">
+        <h2 class="header-text">Standup Updates App</h2>
+        <button class="restart-button" onclick="window.location.reload()" aria-label="Run the Standup Updates program">
+            Run Program
+        </button>
+
+    </header>
+    <main>
+        <div id="terminal"></div>
+    </main>
+    <footer class="footer">
+           &copy; 2025 Damaris Alum. All rights reserved.
+    </footer>
+    
+    <script>
+        var term = new Terminal({
+            cols: 80,
+            rows: 24
+        });
+        term.open(document.getElementById('terminal'));
+        term.writeln('Running startup command: python3 run.py');
+        term.writeln('');
+
+        var ws = new WebSocket(location.protocol.replace('http', 'ws') + '//' + location.hostname + (location.port ? (
+            ':' + location.port) : '') + '/');
+
+        ws.onopen = function () {
+            new attach.attach(term, ws);
+        };
+
+        ws.onerror = function (e) {
+            console.log(e);
+        };
+        document.getElementsByClassName("xterm-helper-textarea")[0].focus();
+    </script>
+</body>
