@@ -174,6 +174,9 @@ class DailyLog:
                     console.print("[yellow]Exiting app locally...[/yellow]")
                     exit()
 
+                elif action == "Delete a line":
+                    self.delete_line(key)
+
 
     def edit_line(self, section_name: str):
         entries = self.sections[section_name]
@@ -192,6 +195,22 @@ class DailyLog:
         if valid:
             entries[idx] = msg
             self.sections[section_name] = entries
+
+    def delete_line(self, section_name: str):
+        entries = self.sections[section_name]
+        if not entries:
+            console.print("[bright_red]No lines to delete[/bright_red]")
+            return
+        idx = questionary.select(
+            f"{section_name} - Select a line to delete:",
+            choices=[f"{i + 1}: {line}" for i,
+                     line in enumerate(entries)] + ["Cancel delete"]
+        ).ask()
+        if idx == "Cancel delete":
+            return
+        idx = int(idx.split(":")[0]) - 1
+        entries.pop(idx)
+        self.sections[section_name] = entries
 
 # test edit section is working by running the app
 if __name__ == "__main__":
