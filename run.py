@@ -21,8 +21,8 @@ from google.auth.exceptions import GoogleAuthError
 
 console = Console()
 
-# MAX_WORDS_PER_LINE = 25
-# MAX_INPUT_LENGTH = 200
+MAX_WORDS_PER_LINE = 25
+MAX_INPUT_LENGTH = 200
 
 IRISH_BANK_HOLIDAYS_2025 = [
     datetime.date(2025, 1, 1),
@@ -100,7 +100,10 @@ def display_section(section_name: str, entries: list):
         table.add_row(str(i), line)
     console.print(table)
 
-def validate_line(line, max_words=5, max_length=20):
+def validate_line(
+        line: str,
+        max_words=MAX_WORDS_PER_LINE,
+        max_length=MAX_INPUT_LENGTH):
     """
     Check a line to make sure it’s not too long 
     or too wordy to fit in gcells and its safe.
@@ -141,8 +144,6 @@ class DailyLog:
                     break
                 else:
                     print(msg)
-
-# local test in terminal enter chars >25 should see validation error
 
 if __name__ == "__main__":
     log = DailyLog("Alice")
