@@ -18,3 +18,31 @@ from gspread_formatting import (
 )
 from google.oauth2.service_account import Credentials
 from google.auth.exceptions import GoogleAuthError
+
+console = Console()
+
+MAX_WORDS_PER_LINE = 25
+MAX_INPUT_LENGTH = 200
+
+IRISH_BANK_HOLIDAYS_2025 = [
+    datetime.date(2025, 1, 1),
+    datetime.date(2025, 3, 17),
+    datetime.date(2025, 4, 21),
+    datetime.date(2025, 5, 5),
+    datetime.date(2025, 6, 2),
+    datetime.date(2025, 8, 4),
+    datetime.date(2025, 10, 27),
+    datetime.date(2025, 12, 25),
+    datetime.date(2025, 12, 26),
+]
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+]
+
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('standup_updates_2025')
