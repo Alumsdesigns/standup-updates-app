@@ -46,3 +46,13 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('standup_updates_2025')
+
+def get_previous_working_day(today: datetime.date) -> datetime.date:
+    """
+    Find the last working day before today ignoring
+    weekends and 2025 Irish bank holidays.
+    """
+    day = today - datetime.timedelta(days=1)
+    while day.weekday() >= 5 or day in IRISH_BANK_HOLIDAYS_2025:
+        day -= datetime.timedelta(days=1)
+    return day
