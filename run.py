@@ -115,3 +115,8 @@ def validate_line(
         return False, f"Too many characters: {len(line)} (max {max_length})"
     sanitized = line.replace("\n", " ").replace(";", "")
     return True, sanitized
+
+
+# Test the utils functions locally
+today = datetime.date(2025, 7, 18)  
+print(get_previous_working_day(today))  
