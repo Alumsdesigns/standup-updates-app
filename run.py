@@ -133,6 +133,14 @@ class DailyLog:
             "Blockers": [],
             "FYI": []}
 
+    def enter_sections(self):
+        for key in self.sections:
+            print(f"Section: {key}")
+
+
+
 if __name__ == "__main__":
     log = DailyLog("Alice")
+    print(log.name)      
+    log.enter_sections()
     print(log.sections)
