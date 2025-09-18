@@ -177,6 +177,11 @@ class DailyLog:
                 elif action == "Delete a line":
                     self.delete_line(key)
 
+                elif action == "Done save this section":
+                    if not self.sections[key]:
+                        self.sections[key] = ["None"]
+                    break
+
 
     def edit_line(self, section_name: str):
         entries = self.sections[section_name]
@@ -214,8 +219,7 @@ class DailyLog:
 
 # test edit section is working by running the app
 if __name__ == "__main__":
-    log = DailyLog("Alice")
-    print(log.name)      
-    log.enter_sections()        
-    log.edit_line("Today")
-    print("Updated section:", log.sections["Today"])
+    log = DailyLog("Theo the doggy")
+    log.enter_sections()
+    print(log.sections)
+
