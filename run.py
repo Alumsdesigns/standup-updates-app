@@ -99,3 +99,19 @@ def display_section(section_name: str, entries: list):
     for i, line in enumerate(entries, 1):
         table.add_row(str(i), line)
     console.print(table)
+
+def validate_line(
+        line: str,
+        max_words=MAX_WORDS_PER_LINE,
+        max_length=MAX_INPUT_LENGTH):
+    """
+    Check a line to make sure it’s not too long 
+    or too wordy to fit in gcells and its safe.
+    """
+    words = line.split()
+    if len(words) > max_words:
+        return False, f"Too many words: {len(words)} (max {max_words})"
+    if len(line) > max_length:
+        return False, f"Too many characters: {len(line)} (max {max_length})"
+    sanitized = line.replace("\n", " ").replace(";", "")
+    return True, sanitized
