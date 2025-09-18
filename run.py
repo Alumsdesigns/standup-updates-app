@@ -145,8 +145,28 @@ class DailyLog:
                 else:
                     print(msg)
 
+    def edit_line(self, section_name: str):
+        entries = self.sections[section_name]
+        if not entries:
+            console.print("[bright_red]No lines to edit[/bright_red]")
+            return
+        idx = questionary.select(
+            f"{section_name} - Select a line to edit:",
+            choices=[f"{i + 1}: {line}" for i, line in enumerate(entries)] + ["Cancel edit"]
+        ).ask()
+        if idx == "Cancel edit":
+            return
+        idx = int(idx.split(":")[0]) - 1
+        new_text = questionary.text(f"Replace line {idx + 1}:").ask()
+        valid, msg = validate_line(new_text)
+        if valid:
+            entries[idx] = msg
+            self.sections[section_name] = entries
+
+# test edit section by running the app
 if __name__ == "__main__":
     log = DailyLog("Alice")
     print(log.name)      
     log.enter_sections()
-    print(log.sections)
+    log.enter_sections()         
+    log.edit_line("Today")
