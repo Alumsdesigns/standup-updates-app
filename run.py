@@ -320,6 +320,25 @@ class DailyLog:
                 os.system('clear' if os.name == 'posix' else 'cls')
                 return main()
 
+    def _prepare_rows(self):
+        """
+        Prepare the rows_to_insert list is a 2D list of rows to insert
+        into the sheet and return (rows_to_insert, max_lines).
+         Each row represents one "line" across all sections (Yesterday, Today,
+        Blockers, FYI). Shorter sections are padded with empty strings so that
+        all rows align correctly.
+        """
+        max_lines = max(len(self.sections[sec]) for sec in [
+            "Yesterday", "Today", "Blockers", "FYI"])
+        rows_to_insert = []
+        for i in range(max_lines):
+            row = []
+            for sec in ["Yesterday", "Today", "Blockers", "FYI"]:
+                entries = self.sections[sec]
+                row.append(entries[i] if i < len(entries) else '')
+            rows_to_insert.append(row)
+        return rows_to_insert, max_lines
+
 # test the table view restart the app
 def main():
     console.print(
