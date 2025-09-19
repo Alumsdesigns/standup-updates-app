@@ -9,7 +9,7 @@
 [GitHub Repo](https://github.com/Alumsdesigns/standup-updates-app)
 
 [View Stanup Updates Sucessfully sent to my Google Sheets](https://docs.google.com/spreadsheets/d/1_PDKyq4haiQ9ivY9sxae0GMc9Cknm5I2PIneLN4jfqc/edit?gid=1680754323#gid=1680754323). Data within is for the purposes of the MVP and therefore fictitious.
-* note click request access if you wish to view
+* note click request access if you wish to view the google sheet
 
 
 ***
