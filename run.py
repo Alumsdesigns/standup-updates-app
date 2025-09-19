@@ -4,7 +4,6 @@ Daily Log Terminal App with Google Sheets Integration
 Author: Damaris Alum
 Date: 14-09-2025
 """
-import sys
 import time
 import datetime
 from datetime import timezone
@@ -48,6 +47,7 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('standup_updates_2025')
 
+
 def get_previous_working_day(today: datetime.date) -> datetime.date:
     """
     Find the last working day before today ignoring
@@ -57,6 +57,7 @@ def get_previous_working_day(today: datetime.date) -> datetime.date:
     while day.weekday() >= 5 or day in IRISH_BANK_HOLIDAYS_2025:
         day -= datetime.timedelta(days=1)
     return day
+
 
 def format_pretty_date(date: datetime.date) -> str:
     """
@@ -73,6 +74,7 @@ def format_pretty_date(date: datetime.date) -> str:
 
     month = date.strftime("%B")[:4]
     return date.strftime(f"%a {date.day}{suffix} ") + month
+
 
 def display_section(section_name: str, entries: list):
     """
@@ -101,14 +103,12 @@ def display_section(section_name: str, entries: list):
         table.add_row(str(i), line)
     console.print(table)
 
+
 def validate_line(
         line: str,
         max_words=MAX_WORDS_PER_LINE,
         max_length=MAX_INPUT_LENGTH):
-    """
-    Check a line to make sure it’s not too long 
-    or too wordy to fit in gcells and its safe.
-    """
+    """Check a line to make sure it’s not too long or too wordy."""
     words = line.split()
     if len(words) > max_words:
         return False, f"Too many words: {len(words)} (max {max_words})"
@@ -185,7 +185,6 @@ class DailyLog:
                     os.system('clear' if os.name == 'posix' else 'cls')
                     return main()
 
-
     def edit_line(self, section_name: str):
         entries = self.sections[section_name]
         if not entries:
@@ -193,7 +192,8 @@ class DailyLog:
             return
         idx = questionary.select(
             f"{section_name} - Select a line to edit:",
-            choices=[f"{i + 1}: {line}" for i, line in enumerate(entries)] + ["Cancel edit"]
+            choices=[f"{i + 1}: {line}" for i,
+                     line in enumerate(entries)] + ["Cancel edit"]
         ).ask()
         if idx == "Cancel edit":
             return
@@ -245,7 +245,7 @@ class DailyLog:
 
             console.print(
                 "[green bold]Use arrow keys ↑↓ and Enter to choose a "
-                "section to edit, delete, done with this section, save or restart[/green bold]")
+                "section to edit, save, restart or exit[/green bold]")
             choice = questionary.select(
                 "Select section or action:",
                 choices=list(self.sections.keys()) + ["Save", "Restart app"]
@@ -320,9 +320,6 @@ class DailyLog:
         """
         Prepare the rows_to_insert list is a 2D list of rows to insert
         into the sheet and return (rows_to_insert, max_lines).
-        Each row represents one "line" across all sections (Yesterday, Today,
-        Blockers, FYI). Shorter sections are padded with empty strings so that
-        all rows align correctly.
         """
         max_lines = max(len(self.sections[sec]) for sec in [
             "Yesterday", "Today", "Blockers", "FYI"])
@@ -337,8 +334,9 @@ class DailyLog:
 
     def _make_formats(self):
         """
-        Create and return pretty cell formats for the Google Sheet.
-        Covers title, headers, section colors, and data cells.
+        Return the reusable CellFormat objects and data color list.
+        These objects are pure local objects (no network calls) and
+        can be created outside try/except.
         """
         title_fmt = CellFormat(
             textFormat=TextFormat(bold=True, fontFamily="Roboto", fontSize=16),
@@ -472,80 +470,6 @@ class DailyLog:
                 f"[bright_red]Error saving to Google Sheets: {e}[/bright_red]")
             return False
 
-    def save_to_google_sheets(self) -> bool:
-        """
-        Save the daily log to Google Sheets.
-        Returns True if saved successfully, False otherwise.
-        """
-        rows_to_insert, max_lines = self._prepare_rows()
-        formats = self._make_formats()
-        headers = [
-            f"Yesterday ({format_pretty_date(self.yesterday)})",
-            f"Today ({format_pretty_date(self.today)})",
-            "Blockers",
-            "FYI"
-        ]
-
-        try:
-            ws = SHEET.worksheet('records_2025')
-            all_values = ws.get_all_values()
-
-            if (not all_values or
-                    not all_values[0] or
-                    not all_values[0][0].strip()):
-                year = self.today.year
-                ws.update([[f"Standup Updates {year}"]], range_name='A1')
-                format_cell_range(ws, "A1", formats["title_fmt"])
-                next_row = 3
-            else:
-                next_row = len(all_values) + 2
-
-            ws.update([[self.name]], range_name=f'A{next_row}')
-            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
-            next_row += 1
-
-            ws.update(
-                [[f"Today's date {format_pretty_date(self.today)}"]],
-                range_name=f'A{next_row}')
-            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
-            next_row += 1
-
-            ws.update([headers], range_name=f'A{next_row}:D{next_row}')
-
-            for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
-                format_cell_range(
-                    ws,
-                    f"{col_letter}{next_row}:{col_letter}{next_row}",
-                    formats["header_formats"][col_idx])
-
-            next_row += 1
-
-            if rows_to_insert:
-                ws.update(
-                    rows_to_insert,
-                    range_name=f'A{next_row}:D{next_row + max_lines - 1}')
-
-            for row_offset in range(max_lines):
-                for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
-                    cell_range = (
-                        f"{col_letter}{next_row + row_offset}:{col_letter}"
-                        f"{next_row + row_offset}")
-                    data_fmt = CellFormat(
-                        textFormat=formats["data_cell_fmt_template"]
-                        .textFormat,
-                        backgroundColor=formats["data_colors"][col_idx],
-                        borders=formats["data_cell_fmt_template"].borders,
-                        wrapStrategy="WRAP")
-                    format_cell_range(ws, cell_range, data_fmt)
-
-            return True
-
-        except (gspread.exceptions.APIError,
-                gspread.exceptions.GSpreadException,
-                GoogleAuthError, OSError) as e:
-            console.print(
-                f"[bright_red]Error saving to Google Sheets: {e}[/bright_red]")
-            return False
 
 def main():
     console.print(
@@ -558,4 +482,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
