@@ -301,6 +301,25 @@ class DailyLog:
                 ]
             ).ask()
 
+            if action == "Add new line":
+                new_line = questionary.text("New line:").ask()
+                valid, msg = validate_line(new_line)
+                if valid:
+                    self.sections[section_name].append(msg)
+            elif action == "Edit a line":
+                self.edit_line(section_name)
+            elif action == "Delete a line":
+                self.delete_line(section_name)
+            elif action == "Done editing":
+                if not self.sections[section_name]:
+                    self.sections[section_name] = ["None"]
+                break
+            elif action == "Restart app":
+                console.print("[yellow]Restarting, please wait...[/yellow]")
+                time.sleep(1)
+                os.system('clear' if os.name == 'posix' else 'cls')
+                return main()
+
 # test the table view restart the app
 def main():
     console.print(
