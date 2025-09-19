@@ -586,7 +586,7 @@ These 6 lines will give you an option which you should not include when deployin
 
 ### People
 
-* I would like to thank my mentor Brian Macharia, for his guidance and advice, his feedback was crucial for improving the quality of my code and navigating he project's challeges. And the student care team at code institute.
+* I would like to thank my mentor Brian Macharia, for his guidance and advice, his feedback was crucial for improving the quality of my code and navigating he project's challeges. And the student care team at code institute. I would also like to thank girls who code colleagues who I recently joined as a support group.
 
 Support with how to develop ideas into code also came from various online resources:
 
