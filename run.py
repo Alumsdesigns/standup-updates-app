@@ -155,8 +155,7 @@ class DailyLog:
                         "Edit a line",
                         "Delete a line",
                         "Done save this section",
-                        "Restart app",
-                        "Exit Locally"
+                        "Restart app"
                     ]
                 ).ask()
 
@@ -185,10 +184,6 @@ class DailyLog:
                     time.sleep(1)
                     os.system('clear' if os.name == 'posix' else 'cls')
                     return main()
-
-                elif action == "Exit Locally":
-                    console.print("[yellow]Exiting app locally...[/yellow]")
-                    exit()
 
 
     def edit_line(self, section_name: str):
@@ -250,7 +245,7 @@ class DailyLog:
 
             console.print(
                 "[green bold]Use arrow keys ↑↓ and Enter to choose a "
-                "section to edit, save, restart or exit[/green bold]")
+                "section to edit, delete, done with this section, save or restart[/green bold]")
             choice = questionary.select(
                 "Select section or action:",
                 choices=list(self.sections.keys()) + ["Save", "Restart app"]
@@ -552,8 +547,6 @@ class DailyLog:
                 f"[bright_red]Error saving to Google Sheets: {e}[/bright_red]")
             return False
 
-
-# test google save locally by running app and in cloud heroku run it and test it - check google sheets 
 def main():
     console.print(
         "[bold bright_yellow]Welcome to your Daily Log[/bold bright_yellow]\n")
