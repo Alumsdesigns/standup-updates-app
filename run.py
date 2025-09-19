@@ -226,7 +226,7 @@ class DailyLog:
 
     def overview_and_edit(self):
         """
-        Show your daily log update in a table and let you pick
+        Show your daily log in a table and let you pick
         a section to edit. Save triggers save_to_google_sheets().
         """
         while True:
@@ -255,6 +255,23 @@ class DailyLog:
                 choices=list(self.sections.keys()) + ["Save", "Restart app"]
             ).ask()
 
+            if choice == "Save":
+                console.print(
+                    "[bold yellow]Saving... please wait[/bold yellow]")
+                saved = self.save_to_google_sheets()
+                if saved:
+                    console.print(
+                        "[green]Saved successfully! Restarting app...[/green]")
+                    time.sleep(1)
+                    os.system('clear' if os.name == 'posix' else 'cls')
+                    return main()
+                else:
+                    console.print(
+                        "[bright_red]"
+                        "Save failed. See message above."
+                        "[/bright_red]"
+                        )
+
             elif choice == "Restart app":
                 console.print("[yellow]Restarting, please wait...[/yellow]")
                 time.sleep(1)
@@ -263,7 +280,8 @@ class DailyLog:
             else:
                 self.edit_section(choice)
 
-# add a restart the app for end users
+
+# test the table view restart the app
 def main():
     console.print(
         "[bold bright_yellow]Welcome to your Daily Log[/bold bright_yellow]\n")
