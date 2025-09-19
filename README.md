@@ -8,6 +8,8 @@
 
 [GitHub Repo](https://github.com/Alumsdesigns/standup-updates-app)
 
+[View Stanup Updates Sucessfully sent to my Google Sheets](https://docs.google.com/spreadsheets/d/1_PDKyq4haiQ9ivY9sxae0GMc9Cknm5I2PIneLN4jfqc/edit?gid=1680754323#gid=1680754323). Data within is for the purposes of the MVP and therefore fictitious.
+
 
 ***
 
@@ -501,7 +503,7 @@ Enable API within IDE
 
 ### Python Library Dependencies and Packages
 
-* [Google Sheet](https://docs.google.com/spreadsheets/d/1-0Hu5_4mXknpqb36h5K3NuboPPn9xHJsGvmpaZjTMtU/edit#gid=1680754323) To present daily log entries in a clear and structured format and also to maintain accurate records.
+[Google Sheets](https://docs.google.com/spreadsheets/d/1_PDKyq4haiQ9ivY9sxae0GMc9Cknm5I2PIneLN4jfqc/edit?gid=1680754323#gid=1680754323).
 
 * [gspread] – for interacting with Google Sheets.
 
