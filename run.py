@@ -254,7 +254,6 @@ def main():
     name = questionary.text("Enter your name:").ask()
     log = DailyLog(name)
     log.enter_sections()
-    log.overview_and_edit()
 
 
 if __name__ == "__main__":
