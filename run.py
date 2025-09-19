@@ -339,6 +339,68 @@ class DailyLog:
             rows_to_insert.append(row)
         return rows_to_insert, max_lines
 
+    def _make_formats(self):
+        """
+        Create and return pretty cell formats for the Google Sheet.
+        Covers title, headers, section colors, and data cells.
+        """
+        title_fmt = CellFormat(
+            textFormat=TextFormat(bold=True, fontFamily="Roboto", fontSize=16),
+        )
+
+        fmt_name = CellFormat(
+            textFormat=TextFormat(bold=True, fontFamily="Roboto", fontSize=14),
+            backgroundColor=Color(0.8, 0.9, 1),
+            borders=Borders(
+                top=Border("SOLID", Color(0, 0, 0)),
+                bottom=Border("SOLID", Color(0, 0, 0)),
+                left=Border("SOLID", Color(0, 0, 0)),
+                right=Border("SOLID", Color(0, 0, 0)),
+            )
+        )
+
+        data_colors = [
+            Color(0.95, 0.95, 1),
+            Color(0.95, 1, 0.95),
+            Color(1, 0.95, 0.95),
+            Color(1, 1, 0.95)
+        ]
+
+        header_formats = []
+        for col_idx in range(4):
+            fmt = CellFormat(
+                textFormat=TextFormat(
+                    bold=True, fontFamily="Roboto", fontSize=14),
+                backgroundColor=data_colors[col_idx],
+                borders=Borders(
+                    top=Border("SOLID", Color(0, 0, 0)),
+                    bottom=Border("SOLID", Color(0, 0, 0)),
+                    left=Border("SOLID", Color(0, 0, 0)),
+                    right=Border("SOLID", Color(0, 0, 0)),
+                ),
+                wrapStrategy="WRAP"
+            )
+            header_formats.append(fmt)
+
+        data_cell_fmt_template = CellFormat(
+            textFormat=TextFormat(fontFamily="Roboto", fontSize=12),
+            borders=Borders(
+                top=Border("SOLID", Color(0, 0, 0)),
+                bottom=Border("SOLID", Color(0, 0, 0)),
+                left=Border("SOLID", Color(0, 0, 0)),
+                right=Border("SOLID", Color(0, 0, 0)),
+            ),
+            wrapStrategy="WRAP"
+        )
+
+        return {
+            "title_fmt": title_fmt,
+            "fmt_name": fmt_name,
+            "data_colors": data_colors,
+            "header_formats": header_formats,
+            "data_cell_fmt_template": data_cell_fmt_template
+        }
+
 # test the table view restart the app
 def main():
     console.print(
