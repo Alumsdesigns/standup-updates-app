@@ -4,6 +4,7 @@ Daily Log Terminal App with Google Sheets Integration
 Author: Damaris Alum
 Date: 14-09-2025
 """
+import sys
 import time
 import datetime
 from datetime import timezone
@@ -125,7 +126,7 @@ class DailyLog:
 
     def __init__(self, name: str, date: datetime.date = None):
         self.name = name.strip().title()
-        self.today = (date or datetime.datetime.now(timezone.utc).date())
+        self.today = (date or datetime.datetime.utcnow().date())
         self.yesterday = get_previous_working_day(self.today)
         self.sections = {
             "Yesterday": [],
@@ -183,7 +184,7 @@ class DailyLog:
                         "[yellow]Restarting, please wait...[/yellow]")
                     time.sleep(1)
                     os.system('clear' if os.name == 'posix' else 'cls')
-                    return main()
+                    os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
 
                 elif action == "Exit Locally":
                     console.print("[yellow]Exiting app locally...[/yellow]")
@@ -276,7 +277,7 @@ class DailyLog:
                 console.print("[yellow]Restarting, please wait...[/yellow]")
                 time.sleep(1)
                 os.system('clear' if os.name == 'posix' else 'cls')
-                return main()
+                os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
             else:
                 self.edit_section(choice)
 
@@ -318,13 +319,13 @@ class DailyLog:
                 console.print("[yellow]Restarting, please wait...[/yellow]")
                 time.sleep(1)
                 os.system('clear' if os.name == 'posix' else 'cls')
-                return main()
+                os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
 
     def _prepare_rows(self):
         """
         Prepare the rows_to_insert list is a 2D list of rows to insert
         into the sheet and return (rows_to_insert, max_lines).
-         Each row represents one "line" across all sections (Yesterday, Today,
+        Each row represents one "line" across all sections (Yesterday, Today,
         Blockers, FYI). Shorter sections are padded with empty strings so that
         all rows align correctly.
         """
@@ -400,6 +401,7 @@ class DailyLog:
             "header_formats": header_formats,
             "data_cell_fmt_template": data_cell_fmt_template
         }
+
 
 # test the table view restart the app
 def main():
