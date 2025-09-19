@@ -280,6 +280,26 @@ class DailyLog:
             else:
                 self.edit_section(choice)
 
+    def edit_section(self, section_name: str):
+        """
+        Open a section of your daily
+        log so you can add, edit, or delete lines.
+        """
+        while True:
+            display_section(section_name, self.sections[section_name])
+            console.print(
+                f"[bold bright_yellow]{section_name} - Use arrows and "
+                "Enter to choose action[/bold bright_yellow]")
+            action = questionary.select(
+                "Select an action:",
+                choices=[
+                    "Add new line",
+                    "Edit a line",
+                    "Delete a line",
+                    "Done editing",
+                    "Restart app"
+                ]
+            ).ask()
 
 # test the table view restart the app
 def main():
