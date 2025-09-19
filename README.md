@@ -25,11 +25,10 @@ The standup Update App is a simple terminal tool that helps you keep track of wh
 ## Table of Contents
 
 - [User Experience Research and Design](#user-experience-research-and-design)
-  - [Strategy](#strategy)
+  - [Core Objectives for the App](#core-objectives-for-the-app)
   - [Scope](#scope)
-  - [Structure](#structure)
   - [Skeleton](#skeleton)
-  - [Surface](#surface)
+
 - [Features](#features)
   - [Current Features](#current-features)
   - [Future Features](#future-features)
@@ -50,7 +49,6 @@ The standup Update App is a simple terminal tool that helps you keep track of wh
 - [Constraints](#constraints)
 - [Local Development Option: “Exit locally”](#local-development-option-exit-locally)
 - [Credit](#credit)
-- [People](#people)
 
 
 ***
@@ -590,11 +588,11 @@ edit_section()
 
 overview_and_edit()
 
-Add "🚪 Exit locally" to the choices=[ ... ] list.
+Add "Exit locally" to the choices=[ ... ] list.
 
 Add a handler for it:
 
-elif action == "🚪 Exit locally":
+elif action == "Exit locally":
     exit()
 
 
@@ -602,6 +600,8 @@ These 6 lines will give you an option which you should not include when deployin
 
 
 ## Credit
+
+- Heroku template was provided by code institute.
 
 ### People
 
