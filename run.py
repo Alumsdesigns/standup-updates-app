@@ -126,7 +126,7 @@ class DailyLog:
 
     def __init__(self, name: str, date: datetime.date = None):
         self.name = name.strip().title()
-        self.today = (date or datetime.datetime.utcnow().date())
+        self.today = (date or datetime.datetime.now(timezone.utc).date())
         self.yesterday = get_previous_working_day(self.today)
         self.sections = {
             "Yesterday": [],
