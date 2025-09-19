@@ -402,8 +402,158 @@ class DailyLog:
             "data_cell_fmt_template": data_cell_fmt_template
         }
 
+    def save_to_google_sheets(self) -> bool:
+        """
+        Save the daily log to Google Sheets.
+        Returns True if saved successfully, False otherwise.
+        """
+        rows_to_insert, max_lines = self._prepare_rows()
+        formats = self._make_formats()
+        headers = [
+            f"Yesterday ({format_pretty_date(self.yesterday)})",
+            f"Today ({format_pretty_date(self.today)})",
+            "Blockers",
+            "FYI"
+        ]
 
-# test the table view restart the app
+        try:
+            ws = SHEET.worksheet('records_2025')
+            all_values = ws.get_all_values()
+
+            if (not all_values or
+                    not all_values[0] or
+                    not all_values[0][0].strip()):
+                year = self.today.year
+                ws.update([[f"Standup Updates {year}"]], range_name='A1')
+                format_cell_range(ws, "A1", formats["title_fmt"])
+                next_row = 3
+            else:
+                next_row = len(all_values) + 2
+
+            ws.update([[self.name]], range_name=f'A{next_row}')
+            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
+            next_row += 1
+
+            ws.update(
+                [[f"Today's date {format_pretty_date(self.today)}"]],
+                range_name=f'A{next_row}')
+            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
+            next_row += 1
+
+            ws.update([headers], range_name=f'A{next_row}:D{next_row}')
+
+            for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
+                format_cell_range(
+                    ws,
+                    f"{col_letter}{next_row}:{col_letter}{next_row}",
+                    formats["header_formats"][col_idx])
+
+            next_row += 1
+
+            if rows_to_insert:
+                ws.update(
+                    rows_to_insert,
+                    range_name=f'A{next_row}:D{next_row + max_lines - 1}')
+
+            for row_offset in range(max_lines):
+                for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
+                    cell_range = (
+                        f"{col_letter}{next_row + row_offset}:{col_letter}"
+                        f"{next_row + row_offset}")
+                    data_fmt = CellFormat(
+                        textFormat=formats["data_cell_fmt_template"]
+                        .textFormat,
+                        backgroundColor=formats["data_colors"][col_idx],
+                        borders=formats["data_cell_fmt_template"].borders,
+                        wrapStrategy="WRAP")
+                    format_cell_range(ws, cell_range, data_fmt)
+
+            return True
+
+        except (gspread.exceptions.APIError,
+                gspread.exceptions.GSpreadException,
+                GoogleAuthError, OSError) as e:
+            console.print(
+                f"[bright_red]Error saving to Google Sheets: {e}[/bright_red]")
+            return False
+
+    def save_to_google_sheets(self) -> bool:
+        """
+        Save the daily log to Google Sheets.
+        Returns True if saved successfully, False otherwise.
+        """
+        rows_to_insert, max_lines = self._prepare_rows()
+        formats = self._make_formats()
+        headers = [
+            f"Yesterday ({format_pretty_date(self.yesterday)})",
+            f"Today ({format_pretty_date(self.today)})",
+            "Blockers",
+            "FYI"
+        ]
+
+        try:
+            ws = SHEET.worksheet('records_2025')
+            all_values = ws.get_all_values()
+
+            if (not all_values or
+                    not all_values[0] or
+                    not all_values[0][0].strip()):
+                year = self.today.year
+                ws.update([[f"Standup Updates {year}"]], range_name='A1')
+                format_cell_range(ws, "A1", formats["title_fmt"])
+                next_row = 3
+            else:
+                next_row = len(all_values) + 2
+
+            ws.update([[self.name]], range_name=f'A{next_row}')
+            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
+            next_row += 1
+
+            ws.update(
+                [[f"Today's date {format_pretty_date(self.today)}"]],
+                range_name=f'A{next_row}')
+            format_cell_range(ws, f'A{next_row}', formats["fmt_name"])
+            next_row += 1
+
+            ws.update([headers], range_name=f'A{next_row}:D{next_row}')
+
+            for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
+                format_cell_range(
+                    ws,
+                    f"{col_letter}{next_row}:{col_letter}{next_row}",
+                    formats["header_formats"][col_idx])
+
+            next_row += 1
+
+            if rows_to_insert:
+                ws.update(
+                    rows_to_insert,
+                    range_name=f'A{next_row}:D{next_row + max_lines - 1}')
+
+            for row_offset in range(max_lines):
+                for col_idx, col_letter in enumerate(["A", "B", "C", "D"]):
+                    cell_range = (
+                        f"{col_letter}{next_row + row_offset}:{col_letter}"
+                        f"{next_row + row_offset}")
+                    data_fmt = CellFormat(
+                        textFormat=formats["data_cell_fmt_template"]
+                        .textFormat,
+                        backgroundColor=formats["data_colors"][col_idx],
+                        borders=formats["data_cell_fmt_template"].borders,
+                        wrapStrategy="WRAP")
+                    format_cell_range(ws, cell_range, data_fmt)
+
+            return True
+
+        except (gspread.exceptions.APIError,
+                gspread.exceptions.GSpreadException,
+                GoogleAuthError, OSError) as e:
+            console.print(
+                f"[bright_red]Error saving to Google Sheets: {e}[/bright_red]")
+            return False
+
+
+# test google save locally by running app and in cloud heroku run it and test it - check google sheets 
 def main():
     console.print(
         "[bold bright_yellow]Welcome to your Daily Log[/bold bright_yellow]\n")
