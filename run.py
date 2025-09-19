@@ -224,6 +224,29 @@ class DailyLog:
         entries.pop(idx)
         self.sections[section_name] = entries
 
+    def overview_and_edit(self):
+        """
+        Show your daily log in a table and let you pick
+        a section to edit. Save triggers save_to_google_sheets().
+        """
+        while True:
+            table = Table(
+                title=f"[bold]Daily Log Overview for {self.name}[/bold]",
+                show_lines=True)
+            table.add_column(
+                "Section",
+                style="bright_yellow",
+                justify="left",
+                width=12)
+            table.add_column(
+                "Entries",
+                style="white",
+                justify="left",
+                width=60)
+            for key, updates in self.sections.items():
+                table.add_row(key, " | ".join(updates))
+            console.print(table)
+
 # add a restart the app for end users
 def main():
     console.print(
