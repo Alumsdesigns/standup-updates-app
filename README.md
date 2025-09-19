@@ -68,7 +68,9 @@ A successful solution should minimise the effort required for software engineers
 
 Making a switch to a digital logging system is a game-changer for how you manage your work. Now, you can have all your work details right at your fingertips, which makes it super easy to see how far you've come. This is a huge help when it's time to get ready for a performance review or share updates with your team. Plus, you can quickly fix or add to any of your notes right there in the log. That way, you don't have to worry about digging through old, messy notes or trying to remember everything—your info is always correct and ready to go.
 
+
 #### Leading User Stories
+
 
 * As a Software Engineer... 
     * I want a simple way to record and strack my daily standup updates for me and my manager.
@@ -97,6 +99,7 @@ Making a switch to a digital logging system is a game-changer for how you manage
 
 #### Core Objectives for the App
 
+
 * The Standup Update App provides a straightforward way for professionals to capture and manage their daily work updates for their Standup in a formatted structure and as a method to keep for end of year reviews or refelctions on work done. It is also a way for their managers to keep track of work done and stay ontop of updates. 
 
 * It is designed to be quick and intuitive, taking no more effort than jotting down a note before a stand-up, while ensuring entries are structured and easy to review later.
@@ -109,7 +112,9 @@ Making a switch to a digital logging system is a game-changer for how you manage
 An agile approach of keeping the in scope features simple and aligned to the strategy for the MVP will be adopted.
 Below is a list of the leading features for the application.
 
+
 #### In Scope Features
+
 * Daily Log Captures a simple way to record your updates under Yesterday, Today, Blockers, and FYI (For Your Information).
 
 * Edit as You Go  Add, tweak, or delete individual lines instead of retyping everything.
@@ -126,6 +131,7 @@ Below is a list of the leading features for the application.
 
 
 #### Out of Scope Features (for a future release)
+
 * Multiple Users, No accounts or logins yet — this version is just for individuals.
 
 * Slack or Teams Integration, It won’t automatically post your updates into chat apps (maybe later).
@@ -138,8 +144,8 @@ Below is a list of the leading features for the application.
 
 * Advanced Security, Beyond Google Sheets’ built-in protections, there’s no role-based access or extra encryption. 
 
-## Application Design Considerations
 
+## Application Design Considerations
 
 The App will follow a clear, structured interaction flow designed to support professionals in recording and managing their daily work updates efficiently.
 
@@ -161,6 +167,7 @@ The App will follow a clear, structured interaction flow designed to support pro
 
 The structure of the application may evolve during development to incorporate user feedback and usability improvements.
 
+
 ## Skeleton
 
 Standup Updates app is designed to be quick and intuitive, so updating your notes should take about the same time as jotting them down manually—making sure nothing gets lost or overlooked.
@@ -170,6 +177,7 @@ The interface is clean and simple, with a clear header showing your name and the
 If you make a mistake while entering a line, helpful prompts will guide you to fix it, and you can always go back to the main menu or restart the log without losing your work. There’s also a “Restart Log” option so you can start fresh whenever needed.
 
 The overall goal is to make keeping your daily log easy, efficient, and even a little enjoyable—so it fits smoothly into your day.
+
 
 ## Flowchart
 
@@ -294,6 +302,7 @@ Roboto is a Google font that provides a modern, professional aesthetic. It compl
 </p>
 ***
 
+
 ### Future Features
 
 Following a successful MVP launch, the Standup Update App can be further developed over a short period to improve usability and user experience.
@@ -305,6 +314,7 @@ Following a successful MVP launch, the Standup Update App can be further develop
 * Export options – allows users to download or share their log via google sheets options PDF.
 
 * Notifications – send reminders or confirmations via email/SMS when a log is saved.
+
 
 ## Data-Model 
 
@@ -319,6 +329,7 @@ All user input is collected, validated, and held within this structure before be
 
 The Google Sheet itself serves as the external data store, providing a persistent, shareable record of all entries. The app translates the in-memory data model into the sheet's tabular format for long-term storage and easy review by a team
 
+
 ## Application overall workflow
 
 * The Standup update application is structured around dedicated functions that guide the user through each step of collecting, validating, and returning updates. These functions are orchestrated within the main workflow, ensuring that every entry is checked and confirmed with the user before being saved.
@@ -329,6 +340,7 @@ The Google Sheet can be viewed online at [Standup_Updates_2025](https://docs.goo
 
 ***
 
+
 ## Manual Testing 
 
 Throughout the development of the Standup Updates, tools such as PEP8 Online were used to ensure the Python code is clean, maintainable, and adheres to best practices. Interactive functionality and terminal usability were tested to make sure the application is intuitive, user-friendly, and accessible. These tools, along with additional testing methods, were also applied during the testing phase to validate reliability and correct integration with Google Sheets. Full details and testing results can be found in the project repository.
@@ -337,6 +349,7 @@ The following sections summarise the tests and results.
 
 
 ### Code Testing
+
 The code on each file has been tested to ensure clean, maintainable code, using the appropriate validation service, W3C Markup for HTML, and PEP8 Online for Python.
 
 Below are the summarised results from these tests:
@@ -398,6 +411,7 @@ on gitgub
 - Click the "Code" button to the right of the screen, click HTTPs and copy the link there
 - Open a GitBash terminal and navigate to the directory where you want your cloned folder to live
 - On the command line, type "git clone " then paste in the copied url and press the "Enter" key to begin the clone process
+
 
 ### Create data model and integrate using an API
 
@@ -522,6 +536,7 @@ Enable API within IDE
 * [pycodestyle] – for styled console output (tables, colors, highlights).
 
 
+
 ### Software & Web Applications
 
 * [Balsamiq](https://balsamiq.com/) - Used to build wireframes.
@@ -537,6 +552,7 @@ Enable API within IDE
 [The W3C Markup Validation Service](https://validator.w3.org/) - Used to validate HTML files.
 [The W3C CSS Validation Service](https://jigsaw.w3.org/css-validator/) - Used to validate the CSS file.
 
+
 ## How to Create the Heroku app
 
 When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
@@ -550,11 +566,13 @@ If you have credentials in your  project you must create another _Config Var_ ca
 
 Connect your GitHub repository and deploy as normal.
 
+
 ## Constraints
 
 The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
 
 ---
+
 
 ##  Local Development Option: “Exit locally”
 
@@ -581,7 +599,6 @@ elif action == "🚪 Exit locally":
 
 
 These 6 lines will give you an option which you should not include when deploying to Heroku or GitHub, since exit() will just kill the dyno and isn’t useful in production. But locally it is very helpful for running and testing the apps functionality
-
 
 
 ## Credit
