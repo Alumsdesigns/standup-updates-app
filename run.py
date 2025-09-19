@@ -184,7 +184,7 @@ class DailyLog:
                         "[yellow]Restarting, please wait...[/yellow]")
                     time.sleep(1)
                     os.system('clear' if os.name == 'posix' else 'cls')
-                    os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
+                    return main()
 
                 elif action == "Exit Locally":
                     console.print("[yellow]Exiting app locally...[/yellow]")
@@ -277,7 +277,7 @@ class DailyLog:
                 console.print("[yellow]Restarting, please wait...[/yellow]")
                 time.sleep(1)
                 os.system('clear' if os.name == 'posix' else 'cls')
-                os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
+                return main()
             else:
                 self.edit_section(choice)
 
@@ -319,7 +319,7 @@ class DailyLog:
                 console.print("[yellow]Restarting, please wait...[/yellow]")
                 time.sleep(1)
                 os.system('clear' if os.name == 'posix' else 'cls')
-                os.execv(sys.executable, [sys.executable] + sys.argv) # just exit system
+                return main()
 
     def _prepare_rows(self):
         """
