@@ -20,19 +20,36 @@ The standup Update App is a simple terminal tool that helps you keep track of wh
 ***
 
 
-## Index - Table of Contents
+## Table of Contents
 
-* [User Experience R&D](#user-experience-research-and-design)
-    * [Strategy](#Strategy)
-    * [Scope](#Scope)
-    * [Structure](Structure)
-    * [Skeleton](#Skeleton)
-    * [Surface](#Surface)
-* [Features](#Features)
-* [Data Model](#Data-Model)
-* [Manual Testing](#Manual-Testing)
-* [Deployment](#Deployment)
-* [Credits](#Credit)
+- [User Experience Research and Design](#user-experience-research-and-design)
+  - [Strategy](#strategy)
+  - [Scope](#scope)
+  - [Structure](#structure)
+  - [Skeleton](#skeleton)
+  - [Surface](#surface)
+- [Features](#features)
+  - [Current Features](#current-features)
+  - [Future Features](#future-features)
+- [Data Model](#data-model)
+- [Application Overall Workflow](#application-overall-workflow)
+- [Manual Testing](#manual-testing)
+  - [Code Testing](#code-testing)
+  - [Accessibility](#accessibility)
+  - [Performance](#performance)
+  - [Bugs](#bugs)
+- [Deployment](#deployment)
+  - [How to Clone the Repository](#how-to-clone-the-repository)
+  - [Create Data Model and Integrate Using an API](#create-data-model-and-integrate-using-an-api)
+  - [Deploy with Heroku](#deploy-with-heroku)
+- [Python Library Dependencies and Packages](#python-library-dependencies-and-packages)
+- [Software & Web Applications](#software--web-applications)
+- [How to Create the Heroku app](#how-to-create-the-heroku-app)
+- [Constraints](#constraints)
+- [Local Development Option: “Exit locally”](#local-development-option-exit-locally)
+- [Credit](#credit)
+- [People](#people)
+
 
 ***
 
@@ -174,7 +191,7 @@ During this phase, a wireframe from the app interface was developed, using [Figm
 ## Colour 
 
 <p align="center">
-    <img src="readme-images/ button-colour-palette.png" alt="standup updates App Colour Palette"/>
+    <img src="readme-images/button-colour-palette.png" alt="standup updates App Colour Palette"/>
 </p>
 <p align="center">
     <img src="readme-images/cli-colour-palette.png" alt="standup updates App Colour Palette"/>
@@ -277,13 +294,13 @@ Roboto is a Google font that provides a modern, professional aesthetic. It compl
 
 ### Future Features
 
-Following a successful MVP launch, the Daily Log can be further developed over a short period to improve usability and user experience.
+Following a successful MVP launch, the Standup Update App can be further developed over a short period to improve usability and user experience.
 
 * Smartphone support – make the app responsive and easy to use on mobile devices.
 
 * Web features – add an About page, Contact info, and helpful resources for new users.
 
-* Export options – allow users to download or share their log (e.g., PDF, email).
+* Export options – allows users to download or share their log via google sheets options PDF.
 
 * Notifications – send reminders or confirmations via email/SMS when a log is saved.
 
@@ -294,7 +311,7 @@ The application's data is structured around the DailyLog class and its internal 
 
 This data model is designed for simplicity and clarity:
 
-It organizes entries into four key lists: "Yesterday," "Today," "Blockers," and "FYI."
+It organises entries into four key lists "Yesterday," "Today," "Blockers," and "FYI."
 
 All user input is collected, validated, and held within this structure before being written to an external Google Sheet.
 
@@ -350,19 +367,21 @@ Test occurred using Lighthouse within Chrome Dev Tools on 17/09/2025 with the fo
 
 ***
 
-### Bugs (come back to this with martha)
+### Bugs
 
 The issues listed  below we identified and fixed in september 2025.
 
-- run program button - Low contrast between text and the background is an accessibility issue where the difference in color and brightness is not great enough for the text to be easily read. solution was to ensure a high enough contrast ratio. The WCAG 2.1 standard recommends a minimum contrast ratio of: 4.5:1 for normal text. 3.0:1 for large text (18pt or 14pt bold).
+- Run program button - Low contrast between text and the background is an accessibility issue where the difference in color and brightness is not great enough for the text to be easily read. solution was to ensure a high enough contrast ratio. The WCAG 2.1 standard recommends a minimum contrast ratio of: 4.5:1 for normal text. 3.0:1 for large text (18pt or 14pt bold).
 
-- HTML Header h2  - Replacing h2 with h1. This structure allows screen readers to provide a "table of contents" to users, letting them jump directly to the section they're interested in
+- HTML Header h2  - Replacing h2 with h1. This structure allows screen readers to provide a "table of contents" to users, letting them jump directly to the section they're interested in - wave flagged this and I fixed it
 
-- Line too long and traling white space  - error comes from the PEP 8 style guide for Python which recommends that lines of code should be no longer than 80 characters. This makes the code easier to read, especially when viewed on different screen sizes or when multiple files are open side-by-side. To fix this, i needed to break the long line of code into multiple lines, by using parentheses () or a backslash \. The preferred method is using parentheses as they're cleaner and more readable.
+- As I went I fixed PEP8 errors such as Line too long and traling white space. This makes the code easier to read, especially when viewed on different screen sizes or when multiple files are open side-by-side.
 
 - Attribute error fix and time error with utc timezone fixed
 
-- Called main() instead restart systema s can cause security issue
+- Called main() instead restart system as can cause security issue
+
+- All fixes can be seen as i used fix in conventional commit messages
 
 
 ## Deployment
@@ -567,9 +586,9 @@ These 6 lines will give you an option which you should not include when deployin
 
 ### People
 
-* I'd like to thank my mentor Brian Macharia, for his guidance and advice, his feedback was crucial for improving the quality of my code and navigating he project's challeges.
+* I would like to thank my mentor Brian Macharia, for his guidance and advice, his feedback was crucial for improving the quality of my code and navigating he project's challeges. And the student care team at code institute.
 
 Support with how to develop ideas into code also came from various online resources:
 
-* [udemyt](https://www.udemy.com/course/100-days-of-code/learn/lecture)
+* [udemy](https://www.udemy.com/course/100-days-of-code/learn/lecture)
 * [python projects](https://www.youtube.com/shorts/EiHzQLr-arg)
