@@ -226,7 +226,7 @@ class DailyLog:
 
     def overview_and_edit(self):
         """
-        Show your daily log in a table and let you pick
+        Show your daily log update in a table and let you pick
         a section to edit. Save triggers save_to_google_sheets().
         """
         while True:
@@ -247,6 +247,22 @@ class DailyLog:
                 table.add_row(key, " | ".join(updates))
             console.print(table)
 
+            console.print(
+                "[green bold]Use arrow keys ↑↓ and Enter to choose a "
+                "section to edit, save, restart or exit[/green bold]")
+            choice = questionary.select(
+                "Select section or action:",
+                choices=list(self.sections.keys()) + ["Save", "Restart app"]
+            ).ask()
+
+            elif choice == "Restart app":
+                console.print("[yellow]Restarting, please wait...[/yellow]")
+                time.sleep(1)
+                os.system('clear' if os.name == 'posix' else 'cls')
+                return main()
+            else:
+                self.edit_section(choice)
+
 # add a restart the app for end users
 def main():
     console.print(
@@ -254,6 +270,7 @@ def main():
     name = questionary.text("Enter your name:").ask()
     log = DailyLog(name)
     log.enter_sections()
+    log.overview_and_edit()
 
 
 if __name__ == "__main__":
